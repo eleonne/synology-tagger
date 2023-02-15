@@ -17,7 +17,7 @@ class Detection:
     _size = (1024, 1024)
     _filtered = None
     _time = None
-    _threshold = db_config['threshold'] 
+    _threshold = float(db_config['threshold'])
 
     def load_image(self, img):
         try:

@@ -16,12 +16,12 @@ if not os.path.isdir(source_folder):
     print('*** Source Folder is not MOUNTED!!! ***')
     exit()
 
-# get the list from the synofoto database. It gets by the 1000's
+# get the list from the synofoto database. Loads by the 1000's
 list = get_list()
 # reiterate the list from DB until all pics are tagged
 while len(list) > 0:
     print('****** STARTING BATCH *******')
-    for row in list: # 
+    for row in list: 
         start = time.time()
         filename, file_extension = os.path.splitext(source_folder + row.full_path)
         # Classify simply as gif if the file is a gif. Can't load gifs or videos in this model

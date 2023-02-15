@@ -8,7 +8,7 @@ def get_list():
              JOIN folder f ON f.id = u.id_folder
              WHERE mgt.id_unit IS null and u.type = 0
              LIMIT 1000"""
-    res = query(sql, None, 'syno').all()
+    res = query(sql, None).all()
     return res
     
 # Save the tags that were detected
@@ -25,7 +25,7 @@ def save_tags(tags, unit_id):
             FROM public.general_tag g
             WHERE g.normalized_name SIMILAR TO '("""+ tags +""")%'
         """
-    res = query(sql, None, 'syno')
+    res = query(sql, None)
     for row in res:
         sql = "INSERT INTO many_unit_has_many_general_tag(id_unit, id_general_tag) VALUES (:unit_id, :id)"
-        execute(sql, {'unit_id': unit_id, 'id': row.id}, 'syno')
+        execute(sql, {'unit_id': unit_id, 'id': row.id})
