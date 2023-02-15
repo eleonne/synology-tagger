@@ -1,6 +1,6 @@
 # Synology Tagger
 
-Simple tool to improove the Synology Photos search. The idea is to use Machine Learning to classify the pictures and save the classification as tags in the pictures. The Synology Photos already knows how to search for the tags, so if the ML model classifies a picture as {dog, plant vase, orange}, you should be able to search for these terms.<br/>
+Simple tool to improove the Synology Photos search. The idea is to use Machine Learning to classify the pictures and save the classification as tags in the pictures. The Synology Photos already knows how to search for the tags, so if the ML model classifies a picture as `{dog, plant vase, orange}`, you should be able to search for these terms.<br/>
 The list of tags are saved in the `general_tag` table and the N <--> N in `many_unit_has_many_general_tag`.<br/>
 
 ## Installation
@@ -34,8 +34,8 @@ cd venv/Scripts
 activate.bat
 ```
 
-5. Install torch <br/>
-https://pytorch.org/get-started/locally/
+5. Install torch
+<p>https://pytorch.org/get-started/locally/</p>
 
 6. Install MMDetect dependencies
 ```console
@@ -48,15 +48,14 @@ mim install mmcv-full
 pip install -r requirements.txt
 ```
 
-8. Download or train a MMDetection model and put it under ml_models folder. I have used faster RCNN, but maybe you can find something that better suits your needs.
+8. Download or train a MMDetection model and put it under ml_models folder. I used Faster RCNN. If you choose a different model, update `_config_file` and `_checkpoint_file` on [mmdetection.py](https://github.com/eleonne/synology-tagger/blob/main/src/mmdetection.py)
 ```console
 python3.9 -m mim download mmdet --config faster_rcnn_r50_caffe_fpn_mstrain_3x_coco --dest ml_models
 ```
 More pre-trained models here: https://github.com/open-mmlab/mmdetection/tree/3.x/configs
 
-9. Create a Postgres user for yourself with access to select and insert in the database SynoFoto
+9. Create a Postgres user for yourself with access to select and insert in the database SynoFoto. Login with SSH and then:
 ```console
-Login with SSH and then
 psql -d synofoto
 ```
 ```pgsql
