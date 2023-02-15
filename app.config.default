@@ -1,0 +1,7 @@
+[DATABASE]
+host=0.0.0.0
+user=username
+password=password
+
+[GENERAL]
+source_folder=<mounting point>/homes/<user>/Photos
