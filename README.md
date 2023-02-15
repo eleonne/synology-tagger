@@ -4,6 +4,12 @@ This tool offers a straightforward way to enhance the search functionality in Sy
 
 To achieve this, the tool saves the list of tags in the `general_tag` table and establishes an N-to-N relationship through the `many_unit_has_many_general_tag` table.
 
+## !!! IMPORTANT !!!
+`
+You can't run this code directly in the Synology-NAS. DSM don't have the required libraries to compile pycocotools. Also, it would take forever...
+`
+
+
 ## Installation
 1. Ubuntu essentials or Windows Visual Studio CE (NOT VS Code!)
 ```console
