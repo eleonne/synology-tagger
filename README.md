@@ -1,7 +1,8 @@
 # Synology Tagger
 
-Simple tool to improove the Synology Photos search. The idea is to use Machine Learning to classify the pictures and save the classification as tags in the pictures. The Synology Photos already knows how to search for the tags, so if the ML model classifies a picture as `{dog, plant vase, orange}`, you should be able to search for these terms.<br/>
-The list of tags are saved in the `general_tag` table and the N <--> N in `many_unit_has_many_general_tag`.<br/>
+This tool offers a straightforward way to enhance the search functionality in Synology Photos. It leverages machine learning to categorize images and store the classifications as tags within the pictures. Since Synology Photos can already search for tags, this means that if, for instance, the ML model identifies a picture as featuring a dog, a plant vase, and an orange, you can easily retrieve the image by searching for these terms.<br/>
+
+To achieve this, the tool saves the list of tags in the `general_tag` table and establishes an N-to-N relationship through the `many_unit_has_many_general_tag` table.
 
 ## Installation
 1. Ubuntu essentials or Windows Visual Studio CE (NOT VS Code!)
