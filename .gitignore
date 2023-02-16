@@ -5,6 +5,14 @@ __pycache__/
 *.pth
 *.JPG
 *.config
+*.jpg
+*.jpeg
+*.png
+*.gif
+*.heic
+*.qt
+*.mov
+*.mp4
 
 # C extensions
 *.so

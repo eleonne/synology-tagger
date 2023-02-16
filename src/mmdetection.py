@@ -56,8 +56,11 @@ class Detection:
         self._model = init_detector(self._config_file, self._checkpoint_file, device='cuda:0')  # or device='cpu'
         self._all_classes = self._model.CLASSES
 
-    def predict(self, img_path, save=False):
-        img = self.load_image(img_path)
+    def predict(self, img_path = None, save=False, image = None):
+        if image is not None:
+            img = image
+        else:
+            img = self.load_image(img_path)
         # Verifies if the image failed to load for any reason
         if img is False:
             return False
