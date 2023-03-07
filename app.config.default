@@ -5,3 +5,6 @@ password=password
 
 [GENERAL]
 source_folder=<mounting point>/homes/<user>/Photos
+threshold=0.4
+video_threshold=0.6
+sleep_time=600

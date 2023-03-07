@@ -12,7 +12,7 @@ class VideoDetector:
 
     def __init__(self, detection) -> None:
         self._all_classes = detection._all_classes
-        self._threshold = float(db_config['threshold'])
+        self._threshold = float(db_config['video_threshold'])
         self.detection = detection
 
     # Remove duplicates and predictions less than 55% of certainty
@@ -37,6 +37,59 @@ class VideoDetector:
 
         if (duration > 120):
             return []
+
+        res = []
+
+        start = time.time()
+        for i in range(1, duration, every_x_seconds):
+            cap.set(cv2.CAP_PROP_POS_MSEC, i * 1000)
+            success, image = cap.read()
+            if image is not None:
+                res.append(image)
+            if cv2.waitKey(1) & 0xFF == ord('q'):
+                break
+        cap.release()
+        cv2.destroyAllWindows()
+        end = time.time()
+        _time = (end-start) * 10**3
+
+        return {"exec_time": _time, "list":res}
+
+    def extract_long_video_frames(self, video):
+
+        cap = cv2.VideoCapture(video)
+        fps = int(round(cap.get(cv2.CAP_PROP_FPS)))
+        frame_count = cap.get(cv2.CAP_PROP_FRAME_COUNT)
+        every_x_seconds = 2
+        duration = int(round((frame_count / fps) % 60))
+
+        if (duration > 300):
+            return []
+
+        res = []
+
+        start = time.time()
+        for i in range(1, duration, every_x_seconds):
+            cap.set(cv2.CAP_PROP_POS_MSEC, i * 1000)
+            success, image = cap.read()
+            if image is not None:
+                res.append(image)
+            if cv2.waitKey(1) & 0xFF == ord('q'):
+                break
+        cap.release()
+        cv2.destroyAllWindows()
+        end = time.time()
+        _time = (end-start) * 10**3
+
+        return {"exec_time": _time, "list":res}
+
+    def extract_longest_video_frames(self, video):
+
+        cap = cv2.VideoCapture(video)
+        fps = int(round(cap.get(cv2.CAP_PROP_FPS)))
+        frame_count = cap.get(cv2.CAP_PROP_FRAME_COUNT)
+        every_x_seconds = 5
+        duration = int(round((frame_count / fps) % 60))
 
         res = []
 
