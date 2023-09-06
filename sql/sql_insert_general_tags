@@ -1,84 +1,102 @@
-insert into general_tag (id_user, name, count, normalized_name) values (1, 'Pessoa', 0, 'person pessoa');
-insert into general_tag (id_user, name, count, normalized_name) values (1, 'Bicicleta', 0, 'bicycle bike bicicleta');
-insert into general_tag (id_user, name, count, normalized_name) values (1, 'Carro', 0, 'car automobile carro');
-insert into general_tag (id_user, name, count, normalized_name) values (1, 'Motocicleta', 0, 'motorcycle moto motocicleta');
-insert into general_tag (id_user, name, count, normalized_name) values (1, 'Avião', 0, 'airplane aviao');
-insert into general_tag (id_user, name, count, normalized_name) values (1, 'Ônibus', 0, 'bus onibus');
-insert into general_tag (id_user, name, count, normalized_name) values (1, 'Trem', 0, 'train trem');
-insert into general_tag (id_user, name, count, normalized_name) values (1, 'Caminhão', 0, 'truck caminhao');
-insert into general_tag (id_user, name, count, normalized_name) values (1, 'Barco', 0, 'boat barco');
-insert into general_tag (id_user, name, count, normalized_name) values (1, 'Semáforo', 0, 'traffic light sinal semaforo');
-insert into general_tag (id_user, name, count, normalized_name) values (1, 'Hidrante', 0, 'fire hydrant hidrante');
-insert into general_tag (id_user, name, count, normalized_name) values (1, 'Pare', 0, 'stop sign pare');
-insert into general_tag (id_user, name, count, normalized_name) values (1, 'Parquímetro', 0, 'parking meter parquimetro');
-insert into general_tag (id_user, name, count, normalized_name) values (1, 'Banco', 0, 'bench banco');
-insert into general_tag (id_user, name, count, normalized_name) values (1, 'Pássaro', 0, 'bird passaro passarinho');
-insert into general_tag (id_user, name, count, normalized_name) values (1, 'Gato', 0, 'cat feline gato felino');
-insert into general_tag (id_user, name, count, normalized_name) values (1, 'Cachorro', 0, 'dog puppy cao cachorro');
-insert into general_tag (id_user, name, count, normalized_name) values (1, 'Cavalo', 0, 'horse cavalo');
-insert into general_tag (id_user, name, count, normalized_name) values (1, 'Ovelha', 0, 'sheep ovelha carneiro');
-insert into general_tag (id_user, name, count, normalized_name) values (1, 'Vaca', 0, 'cow vaca boi');
-insert into general_tag (id_user, name, count, normalized_name) values (1, 'Elefante', 0, 'elephant elefante');
-insert into general_tag (id_user, name, count, normalized_name) values (1, 'Urso', 0, 'bear urso');
-insert into general_tag (id_user, name, count, normalized_name) values (1, 'Zebra', 0, 'zebra');
-insert into general_tag (id_user, name, count, normalized_name) values (1, 'Girafa', 0, 'giraffe girafa');
-insert into general_tag (id_user, name, count, normalized_name) values (1, 'Mochila', 0, 'backpack mochila');
-insert into general_tag (id_user, name, count, normalized_name) values (1, 'Guarda-chuva', 0, 'umbrella guarda-chuva');
-insert into general_tag (id_user, name, count, normalized_name) values (1, 'Bolsa', 0, 'handbag bolsa');
-insert into general_tag (id_user, name, count, normalized_name) values (1, ' Gravata', 0, 'tie gravata');
-insert into general_tag (id_user, name, count, normalized_name) values (1, 'Terno', 0, 'suitcase terno formal');
-insert into general_tag (id_user, name, count, normalized_name) values (1, 'Frisbee', 0, 'frisbee');
-insert into general_tag (id_user, name, count, normalized_name) values (1, 'Skis', 0, 'skis');
-insert into general_tag (id_user, name, count, normalized_name) values (1, 'Snowboard', 0, 'snowboard neve inverno');
-insert into general_tag (id_user, name, count, normalized_name) values (1, 'Bola', 0, 'sports ball bola');
-insert into general_tag (id_user, name, count, normalized_name) values (1, 'Pipa', 0, 'kite pipa');
-insert into general_tag (id_user, name, count, normalized_name) values (1, 'Boné', 0, 'baseball bat bone');
-insert into general_tag (id_user, name, count, normalized_name) values (1, 'Luva de Baseball', 0, 'baseball glove luva');
-insert into general_tag (id_user, name, count, normalized_name) values (1, 'Skate', 0, 'skateboard skate');
-insert into general_tag (id_user, name, count, normalized_name) values (1, 'Prancha de Surf', 0, 'surfboard surf');
-insert into general_tag (id_user, name, count, normalized_name) values (1, 'Raquete de tenis', 0, 'tennis racket tenis');
-insert into general_tag (id_user, name, count, normalized_name) values (1, 'Garrafa', 0, 'bottle garrafa');
-insert into general_tag (id_user, name, count, normalized_name) values (1, 'Taça de Vinho', 0, 'wine glass taca vinho');
-insert into general_tag (id_user, name, count, normalized_name) values (1, 'Copo', 0, 'cup copo caneca');
-insert into general_tag (id_user, name, count, normalized_name) values (1, 'Garfo', 0, 'fork garfo');
-insert into general_tag (id_user, name, count, normalized_name) values (1, 'Faca', 0, 'knife faca');
-insert into general_tag (id_user, name, count, normalized_name) values (1, 'Colher', 0, 'spoon colher');
-insert into general_tag (id_user, name, count, normalized_name) values (1, 'Tijela', 0, 'bowl tijela');
-insert into general_tag (id_user, name, count, normalized_name) values (1, 'Banana', 0, 'banana');
-insert into general_tag (id_user, name, count, normalized_name) values (1, 'Maçã', 0, 'apple maca');
-insert into general_tag (id_user, name, count, normalized_name) values (1, 'Sanduiche', 0, 'sandwich sanduiche');
-insert into general_tag (id_user, name, count, normalized_name) values (1, 'Laranja', 0, 'orange laranja');
-insert into general_tag (id_user, name, count, normalized_name) values (1, 'Brocoli', 0, 'broccoli brocoli');
-insert into general_tag (id_user, name, count, normalized_name) values (1, 'Cenoura', 0, 'carrot cenoura');
-insert into general_tag (id_user, name, count, normalized_name) values (1, 'Cachorro-quente', 0, 'hot dog cachorro quente');
-insert into general_tag (id_user, name, count, normalized_name) values (1, 'Pizza', 0, 'pizza');
-insert into general_tag (id_user, name, count, normalized_name) values (1, 'Rosquinha', 0, 'donut rosquinha');
-insert into general_tag (id_user, name, count, normalized_name) values (1, 'Bolo', 0, 'cake bolo');
-insert into general_tag (id_user, name, count, normalized_name) values (1, 'Cadeira', 0, 'chair cadeira assento');
-insert into general_tag (id_user, name, count, normalized_name) values (1, 'Sofá', 0, 'couch sofa');
-insert into general_tag (id_user, name, count, normalized_name) values (1, 'Planta', 0, 'potted plant planta');
-insert into general_tag (id_user, name, count, normalized_name) values (1, 'Cama', 0, 'bed cama');
-insert into general_tag (id_user, name, count, normalized_name) values (1, 'Mesa de Jantar', 0, 'dining table mesa jantar');
-insert into general_tag (id_user, name, count, normalized_name) values (1, 'Banheiro', 0, 'toilet banheiro vaso');
-insert into general_tag (id_user, name, count, normalized_name) values (1, 'TV', 0, 'tv televisao');
-insert into general_tag (id_user, name, count, normalized_name) values (1, 'Computador/Laptop', 0, 'laptop computador pc notebook');
-insert into general_tag (id_user, name, count, normalized_name) values (1, 'Mouse', 0, 'mouse rato');
-insert into general_tag (id_user, name, count, normalized_name) values (1, 'Controle Remoto', 0, 'remote controle remoto');
-insert into general_tag (id_user, name, count, normalized_name) values (1, 'Teclado', 0, 'keyboard teclado');
-insert into general_tag (id_user, name, count, normalized_name) values (1, 'Celular', 0, 'cell phone celular');
-insert into general_tag (id_user, name, count, normalized_name) values (1, 'Microondas', 0, 'microwave mocroondas');
-insert into general_tag (id_user, name, count, normalized_name) values (1, 'Forno', 0, 'oven forno');
-insert into general_tag (id_user, name, count, normalized_name) values (1, 'Torradeira', 0, 'toaster torradeira');
-insert into general_tag (id_user, name, count, normalized_name) values (1, 'Pia', 0, 'sink pia');
-insert into general_tag (id_user, name, count, normalized_name) values (1, 'Geladeira', 0, 'refrigerator geladeira');
-insert into general_tag (id_user, name, count, normalized_name) values (1, 'Livro', 0, 'book livro');
-insert into general_tag (id_user, name, count, normalized_name) values (1, 'Relógio', 0, 'clock relogio');
-insert into general_tag (id_user, name, count, normalized_name) values (1, 'Vaso', 0, 'vase vaso');
-insert into general_tag (id_user, name, count, normalized_name) values (1, 'Tesoura', 0, 'scissors tesoura');
-insert into general_tag (id_user, name, count, normalized_name) values (1, 'Ursinho de Pelúcia', 0, 'teddy bear ursinho');
-insert into general_tag (id_user, name, count, normalized_name) values (1, 'Secador de Cabelo', 0, 'hair drier secador cabelo');
-insert into general_tag (id_user, name, count, normalized_name) values (1, 'Escova de Dentes', 0, 'toothbrush escova dentes');
-insert into general_tag (id_user, name, count, normalized_name) values (1, 'Para Excluir', 0, 'delete excluir deletar remover remove');
-insert into general_tag (id_user, name, count, normalized_name) values (1, 'Não Classificado', 0, 'none fail');
-insert into general_tag (id_user, name, count, normalized_name) values (1, 'Panoramico', 0, 'panoramic panoramico');
-insert into general_tag (id_user, name, count, normalized_name) values (1, 'GIF', 0, 'gif');
+WITH new_values (name, normalized_name) as (
+  values 
+    ('Pessoa', 'person pessoa'),
+    ('Bicicleta', 'bicycle bike bicicleta'),
+    ('Carro', 'car automobile carro'),
+    ('Motocicleta', 'motorcycle moto motocicleta'),
+    ('Avião', 'airplane aviao'),
+    ('Ônibus', 'bus onibus'),
+    ('Trem', 'train trem'),
+    ('Caminhão', 'truck caminhao'),
+    ('Barco', 'boat barco'),
+    ('Semáforo', 'traffic light sinal semaforo'),
+    ('Hidrante', 'fire hydrant hidrante'),
+    ('Pare', 'stop sign pare'),
+    ('Parquímetro', 'parking meter parquimetro'),
+    ('Banco', 'bench banco'),
+    ('Pássaro', 'bird passaro passarinho'),
+    ('Gato', 'cat feline gato felino'),
+    ('Cachorro', 'dog puppy cao cachorro'),
+    ('Cavalo', 'horse cavalo'),
+    ('Ovelha', 'sheep ovelha carneiro'),
+    ('Vaca', 'cow vaca boi'),
+    ('Elefante', 'elephant elefante'),
+    ('Urso', 'bear urso'),
+    ('Zebra', 'zebra'),
+    ('Girafa', 'giraffe girafa'),
+    ('Mochila', 'backpack mochila'),
+    ('Guarda-chuva', 'umbrella guarda-chuva'),
+    ('Bolsa', 'handbag bolsa'),
+    (' Gravata', 'tie gravata'),
+    ('Terno', 'suitcase terno formal'),
+    ('Frisbee', 'frisbee'),
+    ('Skis', 'skis'),
+    ('Snowboard', 'snowboard neve inverno'),
+    ('Bola', 'sports ball bola'),
+    ('Pipa', 'kite pipa'),
+    ('Boné', 'baseball bat bone'),
+    ('Luva de Baseball', 'baseball glove luva'),
+    ('Skate', 'skateboard skate'),
+    ('Prancha de Surf', 'surfboard surf'),
+    ('Raquete de tenis', 'tennis racket tenis'),
+    ('Garrafa', 'bottle garrafa'),
+    ('Taça de Vinho', 'wine glass taca vinho'),
+    ('Copo', 'cup copo caneca'),
+    ('Garfo', 'fork garfo'),
+    ('Faca', 'knife faca'),
+    ('Colher', 'spoon colher'),
+    ('Tijela', 'bowl tijela'),
+    ('Banana', 'banana'),
+    ('Maçã', 'apple maca'),
+    ('Sanduiche', 'sandwich sanduiche'),
+    ('Laranja', 'orange laranja'),
+    ('Brocoli', 'broccoli brocoli'),
+    ('Cenoura', 'carrot cenoura'),
+    ('Cachorro-quente', 'hot dog cachorro quente'),
+    ('Pizza', 'pizza'),
+    ('Rosquinha', 'donut rosquinha'),
+    ('Bolo', 'cake bolo'),
+    ('Cadeira', 'chair cadeira assento'),
+    ('Sofá', 'couch sofa'),
+    ('Planta', 'potted plant planta'),
+    ('Cama', 'bed cama'),
+    ('Mesa de Jantar', 'dining table mesa jantar'),
+    ('Banheiro', 'toilet banheiro vaso'),
+    ('TV', 'tv televisao'),
+    ('Computador/Laptop', 'laptop computador pc notebook'),
+    ('Mouse', 'mouse rato'),
+    ('Controle Remoto', 'remote controle remoto'),
+    ('Teclado', 'keyboard teclado'),
+    ('Celular', 'cell phone celular'),
+    ('Microondas', 'microwave mocroondas'),
+    ('Forno', 'oven forno'),
+    ('Torradeira', 'toaster torradeira'),
+    ('Pia', 'sink pia'),
+    ('Geladeira', 'refrigerator geladeira'),
+    ('Livro', 'book livro'),
+    ('Relógio', 'clock relogio'),
+    ('Vaso', 'vase vaso'),
+    ('Tesoura', 'scissors tesoura'),
+    ('Ursinho de Pelúcia', 'teddy bear ursinho'),
+    ('Secador de Cabelo', 'hair drier secador cabelo'),
+    ('Escova de Dentes', 'toothbrush escova dentes'),
+    ('Para Excluir', 'delete excluir deletar remover remove'),
+    ('Não Classificado', 'none fail'),
+    ('Panoramico', 'panoramic panoramico'),
+    ('GIF', 'gif')
+
+),
+upsert as
+( 
+    update general_tag gt
+        set normalized_name = nv.normalized_name
+    FROM new_values nv
+    WHERE gt.name = nv.name
+    RETURNING gt.*
+)
+INSERT INTO general_tag (id_user, name, count, normalized_name)
+SELECT 1, name, normalized_name
+FROM new_values
+WHERE NOT EXISTS (SELECT 1 
+                  FROM upsert up 
+                  WHERE up.name = new_values.name)

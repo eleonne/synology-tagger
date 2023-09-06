@@ -1,11 +1,13 @@
 from configparser import ConfigParser
+import os
 
 
 def get(filename='app.config', section='DATABASE'):
+    base_dir = os.path.dirname(os.path.abspath(__file__)) + '/../'
     # create a parser
     parser = ConfigParser()
     # read config file
-    parser.read(filename)
+    parser.read(base_dir + filename)
 
     # get section, default to postgresql
     db = {}

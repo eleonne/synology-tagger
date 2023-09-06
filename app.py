@@ -6,9 +6,17 @@ import os
 from src.VideoDetector import VideoDetector as VD
 from tqdm import tqdm
 import datetime
+import subprocess
+
 
 source_folder = config.get(section='GENERAL')['source_folder']
 sleep_time = int(config.get(section='GENERAL')['sleep_time'])
+
+while(True):
+    print('**** START FLASK ****')
+    os.system("flask --debug run -h 0.0.0.0")
+    print('**** SLEEPING FOREVER ****')
+    time.sleep(sleep_time)
 
 detection = Detection()
 vd = VD(detection)

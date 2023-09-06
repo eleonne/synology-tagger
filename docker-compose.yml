@@ -1,0 +1,22 @@
+services:
+  tagger:
+    image: synology-tagger
+    container_name: SynologyTagger
+    working_dir: /app
+    command: ["python", "app.py"]
+    build:
+      context: app
+      target: builder
+      shm_size: '8gb'
+    ports: 
+      - '8081:5000'
+    volumes:
+      - .:/app
+      - /media/souzanas/eleonne/Photos:/media/souzanas/eleonne/Photos
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1
+              capabilities: [gpu]

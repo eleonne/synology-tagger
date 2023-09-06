@@ -2,9 +2,14 @@
 host=0.0.0.0
 user=username
 password=password
+sqlite=/app/tagger.db
 
 [GENERAL]
 source_folder=<mounting point>/homes/<user>/Photos
 threshold=0.4
 video_threshold=0.6
-sleep_time=600
+sleep_time=43200
+
+[WEB]
+api_url=http://apps.local:8081/api
+base_url=http://apps.local:8081
