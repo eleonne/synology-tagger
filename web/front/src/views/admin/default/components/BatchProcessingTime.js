@@ -8,11 +8,9 @@ import {
 // Custom components
 import Card from "components/card/Card.js";
 import LineChart from "components/charts/LineChart";
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState } from "react";
 import { getChartOptions, getChartData, secondsToDhms } from '../../../../assets/utils'
 import axios from "axios";
-import ReactApexChart from "react-apexcharts";
-import apexchart from "apexcharts";
 
 export default function BatchProcessingTime(props) {
   const { ...rest } = props;

@@ -12,7 +12,8 @@ import {
 import axios from "axios"
 import MiniStatistics from "components/card/MiniStatistics";
 import IconBox from "components/icons/IconBox";
-import React, {useState, useEffect} from "react";
+import React, { useState, useEffect, useCallback } from "react";
+import useWebSocket, { ReadyState } from 'react-use-websocket';
 // Assets
 import {
     MdSchedule,
@@ -20,41 +21,64 @@ import {
 
 export default function BatchProcessingSchedule(props) {
     const { ...rest } = props;
+    const [socketUrl, setSocketUrl] = useState(process.env.REACT_APP_WS_URL + '/update-running-batch');
+    const { sendMessage, lastMessage, readyState } = useWebSocket(socketUrl);
+
     const [state, setState] = useState({
         'start_date': '01/01/1900 às 00:00:00',
         'is_running': false,
-        'pending_classification': 0
+        'pending_classification': 0,
+        'error': {
+            'error': 'false',
+            'error_msg': ''
+        }
     })
 
     useEffect(() => {
-        axios.get(process.env.REACT_APP_BASE_URL + '/api/get-next-run').then((response) => {
+        if (lastMessage !== null) {
+            const res = eval('(' + lastMessage.data + ')')
             setState({
                 ...state,
-                ...response.data.data
+                ...res.data
             })
+        }
+    }, [lastMessage]);
+
+    const connectionStatus = {
+        [ReadyState.CONNECTING]: 'Connecting',
+        [ReadyState.OPEN]: 'Open',
+        [ReadyState.CLOSING]: 'Closing',
+        [ReadyState.CLOSED]: 'Closed',
+        [ReadyState.UNINSTANTIATED]: 'Uninstantiated',
+    }[readyState];
+
+
+
+    const handleClickSendMessage = useCallback(() => {
+        setState({
+            ...state,
+            'is_running': true,
         })
-    }, []);
+        axios.get(process.env.REACT_APP_API_URL + '/run-now').then(({ data }) => {
+            if (data.error == 'true') {
+                setState({
+                    ...state,
+                    'is_running': false,
+                    error: {...data}
+                })
+            } else {
+                setState({
+                    ...state,
+                    'is_running': true
+                })
+            }
+        })
+    });
 
     const boxBg = useColorModeValue("secondaryGray.300", "whiteAlpha.100");
     const brandColor = useColorModeValue("brand.500", "white");
 
-    const _endContent = (state.is_running) ? <>
-        <Text
-            color={brandColor}
-            fontSize='14px'
-            textAlign='start'
-            fontWeight='700'
-            lineHeight='100%'>
-            Classificando imagens (faltam {state.pending_classification}%)
-        </Text>
-        <Progress
-            variant='table'
-            colorScheme='brandScheme'
-            h='8px'
-            w='100%'
-            value={state.pending_classification}
-        />
-    </> : null
+    // const _endContent = 
 
     return (
         <SimpleGrid columns={{ base: 1, md: 1, xl: 1 }} gap='20px' mb='20px'>
@@ -75,17 +99,49 @@ export default function BatchProcessingSchedule(props) {
                 endContent={
                     <Flex align='flex-start' style={{ flexDirection: 'column', flex: 1 }}>
                         <Button
+                            onClick={handleClickSendMessage}
+                            // disabled={readyState !== ReadyState.OPEN}
                             mb='10px'
                             w='100%'
                             minW='140px'
                             mt={{ base: "20px", "2xl": "auto" }}
                             variant='brand'
-                            isLoading={state.is_running}
+                            isLoading={state.is_running === 'true'}
                             loadingText="Classificando"
                             fontWeight='500'>
                             Iniciar Classificação Agora!
                         </Button>
-                        {_endContent}
+                        {
+                            (state.error.error == 'true') ? <>
+                                <Text
+                                    color={brandColor}
+                                    fontSize='14px'
+                                    textAlign='start'
+                                    fontWeight='700'
+                                    lineHeight='100%'>
+                                    {state.error.error_msg}
+                                </Text>
+                            </> : null
+                        }
+                        {
+                            (state.is_running == 'true') ? <>
+                                <Text
+                                    color={brandColor}
+                                    fontSize='14px'
+                                    textAlign='start'
+                                    fontWeight='700'
+                                    lineHeight='100%'>
+                                    Classificando imagens ({state.pending_classification}%)
+                                </Text>
+                                <Progress
+                                    variant='table'
+                                    colorScheme='brandScheme'
+                                    h='8px'
+                                    w='100%'
+                                    value={state.pending_classification}
+                                />
+                            </> : null
+                        }
                     </Flex>
                 }
             />

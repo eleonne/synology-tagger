@@ -4,6 +4,7 @@ import IconBox from "components/icons/IconBox";
 import axios from "axios";
 import React, {useEffect, useState} from "react";
 import {secondsToDhms} from '../../../../assets/utils'
+import useWebSocket, { ReadyState } from 'react-use-websocket';
 
 import {
     useColorModeValue,
@@ -20,6 +21,8 @@ import {
 
 export default function ClassifiedMedia(props) {
     const {brandColor, boxBg} = props;
+    const [socketUrl, setSocketUrl] = useState(process.env.REACT_APP_WS_URL + '/get-totals');
+    const { sendMessage, lastMessage, readyState } = useWebSocket(socketUrl);
 
     const [state, setState] = useState({
         "classified_total": 0,
@@ -43,12 +46,30 @@ export default function ClassifiedMedia(props) {
         "unclassified_videos_color_weak": '#a8e5d4',
         "unclassified_long_videos_color_weak": '#a8e5d4',
     });
-  
+
     useEffect(() => {
-        axios.get(process.env.REACT_APP_BASE_URL + '/api/get-totals').then((response) => {
-            setState(response.data.data)
-        })
-    }, []);
+        if (lastMessage !== null) {
+            const res = eval('(' + lastMessage.data + ')')
+            setState({
+                ...state,
+                ...res.data
+            })
+        }
+    }, [lastMessage]);
+  
+    // useEffect(() => {
+    //     axios.get(process.env.REACT_APP_BASE_URL + '/api/get-totals').then((response) => {
+    //         setState(response.data.data)
+    //     })
+    // }, []);
+
+    const connectionStatus = {
+        [ReadyState.CONNECTING]: 'Connecting',
+        [ReadyState.OPEN]: 'Open',
+        [ReadyState.CLOSING]: 'Closing',
+        [ReadyState.CLOSED]: 'Closed',
+        [ReadyState.UNINSTANTIATED]: 'Uninstantiated',
+    }[readyState];
 
     useEffect((props) => {
         setState({

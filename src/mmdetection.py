@@ -5,27 +5,26 @@ from pillow_heif import register_heif_opener
 import time, os
 import numpy as np
 import torch
-import src.config as config
+from dotenv import dotenv_values
 from PIL import Image
 from mmengine.visualization import Visualizer
 
 register_heif_opener()
-general_config = config.get(section='GENERAL')
+dotenv_path = '/app/.env'
+env = dotenv_values(dotenv_path)
 
 class Detection:
 
     _model = None
     _base_dir = os.path.dirname(os.path.abspath(__file__)) + '/../'
-    #_config_file = 'ml_models/faster_rcnn_r50_caffe_fpn_mstrain_3x_coco.py'
     _config_file = 'ml_models/faster-rcnn_r50-caffe_fpn_ms-3x_coco.py'
-    #_checkpoint_file = 'ml_models/faster_rcnn_r50_caffe_fpn_mstrain_3x_coco_20210526_095054-1f77628b.pth'
     _checkpoint_file = 'ml_models/faster_rcnn_r50_caffe_fpn_mstrain_3x_coco_20210526_095054-1f77628b.pth'
     _all_classes = None
     _size = (1024, 1024)
     _filtered = None
     _time = None
-    _threshold = float(general_config['threshold'])
-    _device = general_config['device']
+    _threshold = float(env['THRESHOLD'])
+    _device = env['DEVICE']
 
     def load_image(self, img):
         try:

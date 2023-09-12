@@ -10,9 +10,10 @@ services:
       shm_size: '8gb'
     ports: 
       - '8081:5000'
+      - '13306:3306'
     volumes:
       - .:/app
-      - /media/souzanas/eleonne/Photos:/media/souzanas/eleonne/Photos
+      - /etc/localtime:/etc/localtime:ro
     deploy:
       resources:
         reservations:

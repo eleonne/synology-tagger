@@ -26,17 +26,23 @@ import {
   useColorModeValue,
 } from "@chakra-ui/react";
 // Custom components
-import React from "react";
+import React, {useEffect} from "react";
+import axios from "axios"
 import ClassifiedMedia from "./components/ClassifiedMedia";
 import ClassifiedMediaVolume from "./components/ClassifiedMediaVolume";
 import BatchProcessingSchedule from "./components/BatchProcessingSchedule";
-
 
 export default function UserReports() {
   // Chakra Color Mode
   const brandColor = useColorModeValue("brand.500", "white");
   const boxBg = useColorModeValue("secondaryGray.300", "whiteAlpha.100");
-  const textColor = useColorModeValue("secondaryGray.900", "white");
+
+  useEffect(() => {
+    axios.get(process.env.REACT_APP_API_URL + '/test-postgres').then((response) => {
+      if (response.data.error == 'true')
+        return true
+    })
+  })
 
   return (
     <Box pt={{ base: "130px", md: "80px", xl: "80px" }}>

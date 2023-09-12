@@ -1,9 +1,14 @@
 from src.database import query, execute
 
+def test_connection(db='syno'):
+    sql = """SELECT 1"""
+    res = query(sql, None, db).one()
+    return res
+
 # Select the total of classified media
 def get_total_classified():
     sql = """SELECT count(*) as total
-             FROM public.unit u
+             FROM public.unit u 
              LEFT JOIN (
                  SELECT mgt.id_unit
                  FROM public.many_unit_has_many_general_tag mgt
@@ -137,7 +142,7 @@ def get_images():
              JOIN folder f ON f.id = u.id_folder
              WHERE mgt.id_unit IS null AND u.type = 0
              LIMIT 1000"""
-    res = query(sql, None).first()
+    res = query(sql, None).all()
     return res
     
 # Select the 1st 300 short videos (less than 60 secs) not tagged yet

@@ -1,18 +1,15 @@
 
 import cv2
-import time, os
-from pathlib import Path
-from src.mmdetection import Detection
-from src.model import save_tags
-import src.config as config
-
-db_config = config.get(section='GENERAL')
+import time
+from dotenv import dotenv_values
 
 class VideoDetector:
 
     def __init__(self, detection) -> None:
+        dotenv_path = '/app/.env'
+        env = dotenv_values(dotenv_path)
         self._all_classes = detection._all_classes
-        self._threshold = float(db_config['video_threshold'])
+        self._threshold = float(env['VIDEO_THRESHOLD'])
         self.detection = detection
 
     # Remove duplicates and predictions less than 55% of certainty
@@ -88,7 +85,7 @@ class VideoDetector:
         cap = cv2.VideoCapture(video)
         fps = int(round(cap.get(cv2.CAP_PROP_FPS)))
         frame_count = cap.get(cv2.CAP_PROP_FRAME_COUNT)
-        every_x_seconds = 5
+        every_x_seconds = 3
         duration = int(round((frame_count / fps) % 60))
 
         res = []
@@ -108,7 +105,7 @@ class VideoDetector:
 
         return {"exec_time": _time, "list":res}
     
-    def process_frames(self, list):
+    def process_frames(self, list, logger):
         tags = []
         start = time.time()
         count = 0
@@ -117,11 +114,12 @@ class VideoDetector:
             pred = self.detection.predict(image = img)
             # False means the pic could not be loaded for any reason. The script will tag it as NOT CLASSIFIED and move on.
             if pred is False:
-                print('Vish!')
+                logger.warning('- Frame {0} is bad'.format(count))
             else:
                 # Pic was classified and saved in the DB
                 if len(pred['predictions_filtered']):
                     tags.append(pred['predictions_filtered'])
+                    logger.info('- Frame {0} classified'.format(count))
                     
         end = time.time()
         filtered_tags = self.filter(tags)

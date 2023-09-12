@@ -1,5 +1,5 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
+import { createRoot } from 'react-dom/client';
 import 'assets/css/App.css';
 import { HashRouter, Route, Switch, Redirect } from 'react-router-dom';
 import AuthLayout from 'layouts/auth';
@@ -9,7 +9,9 @@ import { ChakraProvider } from '@chakra-ui/react';
 import theme from 'theme/theme';
 import { ThemeEditorProvider } from '@hypertheme-editor/chakra-ui';
 
-ReactDOM.render(
+const container = document.getElementById('root');
+const root = createRoot(container); // createRoot(container!) if you use TypeScript
+root.render(
 	<ChakraProvider theme={theme} >
 		<React.StrictMode>
 			<ThemeEditorProvider>
@@ -23,6 +25,5 @@ ReactDOM.render(
 				</HashRouter>
 			</ThemeEditorProvider>
 		</React.StrictMode>
-	</ChakraProvider>,
-	document.getElementById('root')
+	</ChakraProvider>
 );

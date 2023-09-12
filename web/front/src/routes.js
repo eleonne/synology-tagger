@@ -3,7 +3,7 @@ import React from "react";
 import { Icon } from "@chakra-ui/react";
 import {
   MdBarChart,
-  MdPerson,
+  MdSettings,
   MdHome,
   MdLock,
   MdOutlineShoppingCart,
@@ -11,10 +11,11 @@ import {
 
 // Admin Imports
 import MainDashboard from "views/admin/default";
-import NFTMarketplace from "views/admin/marketplace";
-import Profile from "views/admin/profile";
+// import NFTMarketplace from "views/admin/marketplace";
+// import Profile from "views/admin/profile";
 import DataTables from "views/admin/dataTables";
-import RTL from "views/admin/rtl";
+import Wizard from "views/admin/wizard";
+// import RTL from "views/admin/rtl";
 
 // Auth Imports
 import SignInCentered from "views/auth/signIn";
@@ -34,6 +35,13 @@ const routes = [
     path: "/data-tables",
     component: DataTables,
   },
+  {
+    name: "Configuration",
+    layout: "/admin",
+    icon: <Icon as={MdSettings} width='20px' height='20px' color='inherit' />,
+    path: "/wizard",
+    component: Wizard,
+  }
 ];
 
 export default routes;
