@@ -77,7 +77,7 @@ class Classifier:
                     'type': 'ERROR_LOADING', 
                     'batch_id': self.batch_id
                 })
-                self.logger.error("PICTURE NOT LOADED ID: {0} in {1} seconds".format(row.unit_id, diff))
+                self.logger.error("PICTURE NOT LOADED ID: {0} in {1} seconds - {2}".format(row.unit_id, diff, self.media_folder + row.full_path))
             else:
                 # Pic was classified and saved in the DB
                 if len(pred['predictions_filtered']):

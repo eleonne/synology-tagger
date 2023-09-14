@@ -1,30 +1,14 @@
 {
   "files": {
-    "main.css": "/static/static/css/main.4c291f98.css",
-    "main.js": "/static/static/js/main.e1928610.js",
-    "static/media/auth.png": "/static/static/media/auth.20d5979b439e1531640d.png",
-    "static/media/NftBanner1.png": "/static/static/media/NftBanner1.87062366f75bedd52bd2.png",
-    "static/media/Nft2.png": "/static/static/media/Nft2.7897c45d2601ee3adfb5.png",
-    "static/media/banner.png": "/static/static/media/banner.80db2a895510dd2719aa.png",
-    "static/media/avatar2.png": "/static/static/media/avatar2.5692c39db4f8c0ea999e.png",
-    "static/media/avatar3.png": "/static/static/media/avatar3.9f646ac5920fa40adf00.png",
-    "static/media/avatar1.png": "/static/static/media/avatar1.eeef2af6dfcd3ff23cb8.png",
-    "static/media/Nft4.png": "/static/static/media/Nft4.5fc37877b25c9fb9a52d.png",
-    "static/media/Nft3.png": "/static/static/media/Nft3.3b3e6a4b3ada7618de6c.png",
-    "static/media/Nft6.png": "/static/static/media/Nft6.9ff5403226e81a6fd390.png",
+    "main.css": "/static/static/css/main.e571a247.css",
+    "main.js": "/static/static/js/main.5018b8bc.js",
     "static/media/Navbar.png": "/static/static/media/Navbar.f96a9f58c491b9acda99.png",
-    "static/media/Nft1.png": "/static/static/media/Nft1.0fea34cca5aed6cad72b.png",
-    "static/media/avatar4.png": "/static/static/media/avatar4.54d5c1de851c273b2cd9.png",
-    "static/media/Nft5.png": "/static/static/media/Nft5.62dbaf7dd91b4180035c.png",
-    "static/media/Project3.png": "/static/static/media/Project3.378b532af038bf47559c.png",
-    "static/media/Project2.png": "/static/static/media/Project2.90f702366422b52138b1.png",
-    "static/media/Project1.png": "/static/static/media/Project1.d5952144f76e2cb9e5d6.png",
     "index.html": "/static/index.html",
-    "main.4c291f98.css.map": "/static/static/css/main.4c291f98.css.map",
-    "main.e1928610.js.map": "/static/static/js/main.e1928610.js.map"
+    "main.e571a247.css.map": "/static/static/css/main.e571a247.css.map",
+    "main.5018b8bc.js.map": "/static/static/js/main.5018b8bc.js.map"
   },
   "entrypoints": [
-    "static/css/main.4c291f98.css",
-    "static/js/main.e1928610.js"
+    "static/css/main.e571a247.css",
+    "static/js/main.5018b8bc.js"
   ]
 }

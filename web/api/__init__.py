@@ -5,19 +5,15 @@ from src.classifier import Classifier
 from src.model import get_total_classified, get_total_classified_images, get_total_classified_short_videos, test_connection
 from src.model import get_total_classified_long_videos, get_total_classified_longest_videos
 from src.model import get_total_unclassified, get_total_unclassified_images, get_total_unclassified_short_videos
-from src.model import get_total_unclassified_long_videos, get_total_unclassified_longest_videos
+from src.model import get_total_unclassified_long_videos, get_total_unclassified_longest_videos, get_last_picture_taken
 from src.model_batch import get_is_running, get_classification_data
 import time, os
 from src.tasks import classify_task
 from cron_descriptor import get_description
-from src.utils import ssh_command, ssh_multiple_commands, upload_script
-from dotenv import dotenv_values, set_key, load_dotenv
-
-dotenv_path = '/app/.env'
-env = dotenv_values(dotenv_path)
-
-to_join = (env['MINUTE'], env['HOUR'], env['DAY_OF_MONTH'], env['MONTH'], env['DAY_OF_WEEK'])
-schedule = get_description(" ".join(to_join))
+from src.utils import ssh_command, upload_script
+from dotenv import dotenv_values, set_key
+from pathlib import Path
+from smb.SMBConnection import SMBConnection
 
 app = Flask(__name__, static_folder='../static', template_folder="../static")
 
@@ -75,8 +71,12 @@ def getTotals(ws):
 
 @sock.route('/ws/update-running-batch')
 def update_running_batch(ws):
-    last_msg = None
-    while True:
+   dotenv_path = '/app/.env'
+   env = dotenv_values(dotenv_path)
+   to_join = (env['MINUTE'], env['HOUR'], env['DAY_OF_MONTH'], env['MONTH'], env['DAY_OF_WEEK'])
+   schedule = get_description(" ".join(to_join))
+   last_msg = None
+   while True:
       data = ws.receive(timeout=0)
       msg = get_not_processed()
       if (msg != last_msg or data is not None):
@@ -93,6 +93,10 @@ def update_running_batch(ws):
 
 @app.route('/api/get-next-run')
 def getNextRun():
+   dotenv_path = '/app/.env'
+   env = dotenv_values(dotenv_path)
+   to_join = (env['MINUTE'], env['HOUR'], env['DAY_OF_MONTH'], env['MONTH'], env['DAY_OF_WEEK'])
+   schedule = get_description(" ".join(to_join))
    not_processed = get_not_processed()
    res = {
       "success": "true",
@@ -152,19 +156,6 @@ def runNow():
       'classifying': 'true'
    })
 
-@app.route('/api/ssh')
-@cross_origin()
-def ssh():
-   import socket    
-   hostname = socket.gethostname()    
-   IPAddr = socket.gethostbyname(hostname)  
-
-   env = load_dotenv('/app/.env')
-   return jsonify({
-      'stdout': dict(os.environ),
-      # 'stderr': res['stderr']
-   })
-
 @app.route('/api/get-config')
 @cross_origin()
 def get_config():
@@ -183,6 +174,9 @@ def save_config():
    dotenv_path = '/app/.env'
    for key, value in request.json.items():
       set_key(dotenv_path, key, value)
+   # Restart celery so the schedule change works
+   os.system("ps auxww | grep celery | grep -v \"grep\" | awk '{print $2}' | xargs kill -9")
+   os.system("celery -A src.tasks worker -B -P solo -l info &")   
    return jsonify({
       'success': 'true',
       'saved': 'true'
@@ -199,14 +193,14 @@ def test_ssh():
    except Exception as e:
       return jsonify({
          'error': 'true',
-         'error_msg': str(e),
-         'connected': 'false'
+         'error_message': str(e),
+         'is_connected': 'false'
       })
 
    return jsonify({
       'success': 'true',
-      'error_msg': '',
-      'connected': 'true'
+      'error_message': '',
+      'is_connected': 'true'
    })
 
 @app.route('/api/test-postgres', methods=['GET'])
@@ -217,14 +211,14 @@ def test_postgres():
    except Exception as e:
       return jsonify({
          'error': 'true',
-         'error_msg': str(e),
-         'connected': 'false'
+         'error_message': str(e),
+         'is_connected': 'false'
       })
 
    return jsonify({
       'success': 'true',
-      'error_msg': '',
-      'connected': 'true'
+      'error_message': '',
+      'is_connected': 'true'
    })
 
 @app.route('/api/create-postgres-connection', methods=['GET'])
@@ -240,6 +234,27 @@ def create_postgres_connection():
       'stdout': out,
       # 'stderr': res['stderr']
    })
+
+@app.route('/api/test-media-folder', methods=['GET'])
+@cross_origin()
+def test_media_folder():
+   dotenv_path = '/app/.env'
+   env = dotenv_values(dotenv_path)
+   last_picture = get_last_picture_taken()
+   full_path = env['MEDIA_FOLDER'] + last_picture.full_path
+   file_exists = Path(full_path).exists()
+   if file_exists:
+      return jsonify({
+         'success': 'true',
+         'error_message': '',
+         'is_connected': 'true'
+      })
+   else:
+      return jsonify({
+         'success': 'true',
+         'error_message': "Can't find the last picture taken. Try mounting the folder. Notice you will need SSH+Postgres Connection",
+         'is_connected': 'false'
+      })
 
 if __name__ == "__main__":
    sock.run(debug=True)

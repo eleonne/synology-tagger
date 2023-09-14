@@ -18,8 +18,9 @@ app.conf.timezone = 'America/New_York'
 def setup_periodic_tasks(sender, **kwargs):
 
     # Executes every Monday morning at 7:30 a.m.
+    cron = env['CRONTAB'].split()
     sender.add_periodic_task(
-        crontab(hour=env['HOUR'], minute=env['MINUTE'], day_of_month=env['DAY_OF_MONTH'], month_of_year=env['MONTH'], day_of_week=env['DAY_OF_WEEK']),
+        crontab(minute=cron[0], hour=cron[1], day_of_month=cron[2], month_of_year=cron[3], day_of_week=cron[4]),
         start_schedule.s(),
     )
 

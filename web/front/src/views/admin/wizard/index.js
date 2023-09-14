@@ -17,7 +17,15 @@ import {
 import {
     MdCloudDone,
     MdCloudOff,
+    MdFolderOpen,
+    MdFolderOff
 } from "react-icons/md";
+import {
+    BsDatabaseFillCheck,
+    BsDatabaseFillSlash,
+} from "react-icons/bs";
+import { Cron } from 'react-js-cron'
+import 'react-js-cron/dist/styles.css'
 import { ExternalLinkIcon } from '@chakra-ui/icons'
 import Card from '../../../components/card/Card'
 import { VSeparator } from "../../../components/separator/Separator";
@@ -28,13 +36,9 @@ export default function UserReports() {
 
     const [state, setState] = useState({
         "data": {
-            "DAY_OF_MONTH": "*",
-            "DAY_OF_WEEK": "*",
             "DEVICE": "gpu",
-            "HOUR": "0",
             "MEDIA_FOLDER": "/media/nas",
-            "MINUTE": "0",
-            "MONTH": "*",
+            "CRONTAB": "* * * * *",
             "MYSQL_PASSWORD": "",
             "MYSQL_USER": "",
             "PG_PASSWORD": "",
@@ -54,21 +58,35 @@ export default function UserReports() {
             "is_connected": "false",
             "error_message": "",
         },
+        "media_folder": {
+            "is_connected": "false",
+            "error_message": ""
+        },
         "isLoading": 'false',
     })
 
     useEffect(() => {
-        setState({
-            ...state,
-            isLoading: 'true'
-        })
-        axios.get(process.env.REACT_APP_API_URL + '/get-config').then((response) => {
+        async function fetchData() {
+            const [config, ssh, postgres, media_folder] = await Promise.all([
+                axios.get(process.env.REACT_APP_API_URL + '/get-config'),
+                axios.get(process.env.REACT_APP_API_URL + '/test-ssh'),
+                axios.get(process.env.REACT_APP_API_URL + '/test-postgres'),
+                axios.get(process.env.REACT_APP_API_URL + '/test-media-folder')
+            ])
             setState({
                 ...state,
-                data: {...response.data},
-                isLoading: 'false'
+                isLoading: 'false',
+                data: {...config.data},
+                ssh: {...ssh.data},
+                postgres: {...postgres.data},
+                media_folder: {...media_folder.data}
             })
+        }
+        setState({
+            ...state,
+            isLoading: 'true',
         })
+        fetchData()
     }, [])
 
     const getTitle = (title) => (
@@ -86,8 +104,15 @@ export default function UserReports() {
         </Flex>
     )
 
-    const getField = (label, type, stateKey, placeholder = '') => (
-        <Box display="flex" flexDir='column' w='100%'>
+    const getField = (label, type, stateKey, placeholder = '', disabled = false) => {
+        
+        let is_disabled = false
+        if (disabled == true)
+            is_disabled = true
+        else
+            is_disabled = state.isLoading == 'true'
+
+        return (<Box display="flex" flexDir='column' w='100%'>
             <FormLabel
                 display='flex'
                 ms='4px'
@@ -100,7 +125,7 @@ export default function UserReports() {
                 isRequired={true}
                 // variant='auth'
                 fontSize='sm'
-                disabled={state.isLoading == 'true'}
+                disabled={is_disabled}
                 ms={{ base: "0px", md: "0px" }}
                 type={type}
                 placeholder={placeholder}
@@ -111,8 +136,8 @@ export default function UserReports() {
                 onChange={handle}
                 name={stateKey}
             />
-        </Box>
-    )
+        </Box>)
+    }
 
     const saveHandler = () => {
         setState({
@@ -137,10 +162,7 @@ export default function UserReports() {
                 setState({
                     ...state,
                     isLoading: 'false',
-                    ssh: {
-                        "is_connected": response.data.connected,
-                        "error_message": response.data.error_msg,
-                    }
+                    ssh: {...response.data}
                 })
             })
         })
@@ -156,10 +178,7 @@ export default function UserReports() {
                 setState({
                     ...state,
                     isLoading: 'false',
-                    postgres: {
-                        "is_connected": response.data.connected,
-                        "error_message": response.data.error_msg,
-                    }
+                    postgres: {...response.data}
                 })
             })
         })
@@ -181,6 +200,30 @@ export default function UserReports() {
                     }
                 })
             })
+        })
+    }
+
+    const testMediaFolderHandler = () => {
+        setState({
+            ...state,
+            isLoading: 'true'
+        })
+        axios.post(process.env.REACT_APP_API_URL + '/save-config', state['data']).then((response) => {
+            axios.get(process.env.REACT_APP_API_URL + '/test-media-folder').then((response) => {
+                setState({
+                    ...state,
+                    isLoading: 'false',
+                    media_folder: {...response.data}
+                })
+            })
+        })
+    }
+
+    const setCron = (cron) => {
+        const data = {...state}
+        data.data['CRONTAB'] = cron
+        setState({
+            ...data
         })
     }
 
@@ -252,7 +295,7 @@ export default function UserReports() {
                                             h='24px'
                                             // bg={boxBg}
                                             icon={
-                                                <Icon w='24px' h='24px' as={MdCloudDone} color='green'/>
+                                                <Icon w='24px' h='24px' as={BsDatabaseFillCheck} color='green'/>
                                             }/>
                                         <Text color='green'>Connected</Text>
                                     </>
@@ -263,7 +306,7 @@ export default function UserReports() {
                                             h='24px'
                                             // bg={boxBg}
                                             icon={
-                                                <Icon w='24px' h='24px' as={MdCloudOff} color='red'/>
+                                                <Icon w='24px' h='24px' as={BsDatabaseFillSlash} color='red'/>
                                             }/>
                                         <Text color='red'>Not Connected: {state.postgres.error_message}</Text>
                                     </>
@@ -283,7 +326,37 @@ export default function UserReports() {
                 <Card>
                     <FormControl>
                         <Box display="flex" flexDirection='row'>
-                            {getField('Media Folder', 'text', 'MEDIA_FOLDER', 'Eg. /media/xxx/yyyy')}
+                            <Button disabled={state.isLoading == 'true' || state.postgres.is_connected == 'false'} onClick={testMediaFolderHandler} colorScheme='blue' size='sm'>
+                                Test Folder
+                            </Button>
+                            <VSeparator w='24px' bg='white' />
+                            {
+                                state.media_folder.is_connected == 'true' ? 
+                                    <>
+                                        <IconBox
+                                            w='24px'
+                                            h='24px'
+                                            // bg={boxBg}
+                                            icon={
+                                                <Icon w='24px' h='24px' as={MdFolderOpen} color='green'/>
+                                            }/>
+                                        <Text color='green'>Connected</Text>
+                                    </>
+                                    :
+                                    <>
+                                        <IconBox
+                                            w='24px'
+                                            h='24px'
+                                            // bg={boxBg}
+                                            icon={
+                                                <Icon w='24px' h='24px' as={MdFolderOff} color='red'/>
+                                            }/>
+                                        <Text color='red'>Not Connected: {state.media_folder.error_message}</Text>
+                                    </>
+                            }
+                        </Box>
+                        <Box display="flex" flexDirection='row'>
+                            {getField('Media Folder', 'text', 'MEDIA_FOLDER', 'Eg. /media/xxx/yyyy', true)}
                             <VSeparator w='24px' bg='white' />
                             <Box display="flex" flexDirection='column'>
                                 <Text fontWeight='500' >Compute Using:</Text>
@@ -308,24 +381,9 @@ export default function UserReports() {
             <Box pt={{ base: "130px", md: "80px", xl: "80px" }}>
                 {getTitle('Scheduling')}
                 <Card>
-                    <FormControl>
-                        <Text >This is a CRONTAB config. You can check this <Link href="https://crontab.guru/" isExternal>site<ExternalLinkIcon mx='2px' /></Link> to understand the logic</Text>
-                        <Box display="flex" flexDirection='row'>
-                            {getField('Minute', 'text', 'MINUTE', 'Eg. *')}
-                            <VSeparator w='24px' bg='white' />
-                            {getField('Hour', 'text', 'HOUR', 'Eg. *')}
-                            <VSeparator w='24px' bg='white' />
-                            {getField('Day of the Month', 'text', 'DAY_OF_MONTH', 'Eg. *')}
-                            <VSeparator w='24px' bg='white' />
-                            {getField('Month', 'text', 'MONTH', 'Eg. *')}
-                            <VSeparator w='24px' bg='white' />
-                            {getField('Day of the Week', 'text', 'DAY_OF_WEEK', 'Eg. *')}
-                        </Box> 
-                    </FormControl>
+                    <Cron value={state.data.CRONTAB} setValue={setCron} />
                 </Card>
             </Box>
-            {state.error_message ? <Text color='red'>{state.error_message}</Text> : null}
-            {state.success_message ? <Text color='green'>{state.success_message}</Text> : null}
             <Button onClick={saveHandler} colorScheme='blue' size='lg'>Save</Button>
         </>
     )

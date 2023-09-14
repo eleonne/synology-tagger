@@ -4,6 +4,7 @@ services:
     container_name: SynologyTagger
     working_dir: /app
     command: ["python", "app.py"]
+    privileged: true
     build:
       context: app
       target: builder
@@ -14,6 +15,7 @@ services:
     volumes:
       - .:/app
       - /etc/localtime:/etc/localtime:ro
+      - /media/souzanas:/media/synology-nas:ro
     deploy:
       resources:
         reservations:
