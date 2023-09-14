@@ -73,8 +73,7 @@ def getTotals(ws):
 def update_running_batch(ws):
    dotenv_path = '/app/.env'
    env = dotenv_values(dotenv_path)
-   to_join = (env['MINUTE'], env['HOUR'], env['DAY_OF_MONTH'], env['MONTH'], env['DAY_OF_WEEK'])
-   schedule = get_description(" ".join(to_join))
+   schedule = get_description(env['CRONTAB'])
    last_msg = None
    while True:
       data = ws.receive(timeout=0)
@@ -95,8 +94,7 @@ def update_running_batch(ws):
 def getNextRun():
    dotenv_path = '/app/.env'
    env = dotenv_values(dotenv_path)
-   to_join = (env['MINUTE'], env['HOUR'], env['DAY_OF_MONTH'], env['MONTH'], env['DAY_OF_WEEK'])
-   schedule = get_description(" ".join(to_join))
+   schedule = get_description(env['CRONTAB'])
    not_processed = get_not_processed()
    res = {
       "success": "true",
