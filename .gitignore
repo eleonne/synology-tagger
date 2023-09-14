@@ -3,11 +3,7 @@ __pycache__/
 *.py[cod]
 *$py.class
 *.pth
-*.JPG
 *.config
-*.jpg
-*.jpeg
-*.png
 *.gif
 *.heic
 *.qt
