@@ -1,10 +1,9 @@
 services:
   tagger:
-    image: synology-tagger
-    container_name: SynologyTagger
+    image: eleonne/synology-tagger
+    container_name: SynologyTagger2
     working_dir: /app
     command: ["python", "app.py"]
-    privileged: true
     build:
       context: app
       target: builder
@@ -15,7 +14,7 @@ services:
     volumes:
       - .:/app
       - /etc/localtime:/etc/localtime:ro
-      - /media/souzanas:/media/synology-nas:ro
+      - <your mapped/mounted network drive>:/media/synology-nas:ro
     deploy:
       resources:
         reservations:
