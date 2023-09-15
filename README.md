@@ -13,7 +13,7 @@ You can't run this code directly in the Synology-NAS. DSM don't have the require
 ## Installation
 1. Ubuntu essentials or Windows Visual Studio CE (NOT VS Code!)
 ```console
-sudo apt-get install build-essential libssl-dev libffi-dev
+sudo apt-get install build-essentials libssl-dev libffi-dev
 ```
 
 2. Install python 3.9, pip3.9 and venv
