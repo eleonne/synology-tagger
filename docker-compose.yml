@@ -1,0 +1,24 @@
+services:
+  tagger:
+    image: eleonne/synology-tagger
+    container_name: SynologyTagger2
+    working_dir: /app
+    command: ["python", "app.py"]
+    build:
+      context: app
+      target: builder
+      shm_size: '8gb'
+    ports: 
+      - '8081:5000'
+      - '13306:3306'
+    volumes:
+      - .:/app
+      - /etc/localtime:/etc/localtime:ro
+      - <your mapped/mounted network drive>:/media/synology-nas:ro
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1
+              capabilities: [gpu]
