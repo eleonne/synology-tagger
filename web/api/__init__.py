@@ -6,6 +6,7 @@ from src.model import get_total_classified, get_total_classified_images, get_tot
 from src.model import get_total_classified_long_videos, get_total_classified_longest_videos
 from src.model import get_total_unclassified, get_total_unclassified_images, get_total_unclassified_short_videos
 from src.model import get_total_unclassified_long_videos, get_total_unclassified_longest_videos, get_last_picture_taken
+from src.model import get_photo_trend, get_video_trend, get_video_trend_split, get_photo_by_country
 from src.model_batch import get_is_running, get_classification_data
 import time, os
 from src.tasks import classify_task
@@ -110,6 +111,61 @@ def getNextRun():
 @cross_origin()
 def getClassificationData():
    rows = get_classification_data()
+   res = {
+      'success': 'true',
+      'data': {
+         'labels': [],
+         'values': [],
+         'total': 0
+      }
+   }
+   for r in rows:
+      res['data']['labels'].append(r.label)
+      res['data']['values'].append(r.value)
+      res['data']['total'] = res['data']['total'] + r.value
+   return jsonify(res)
+
+@app.route('/api/get-photo-trend')
+@cross_origin()
+def getPhotoTrend():
+   rows = get_photo_trend()
+   res = {
+      'success': 'true',
+      'data': {
+         'labels': [],
+         'values': [],
+         'total': 0
+      }
+   }
+   for r in rows:
+      res['data']['labels'].append(r.label)
+      res['data']['values'].append(r.value)
+      res['data']['total'] = res['data']['total'] + r.value
+   return jsonify(res)
+
+@app.route('/api/get-video-trend-split')
+@cross_origin()
+def getVideoTrendSplit():
+   rows = get_video_trend_split()
+   column = request.args.get('column')
+   res = {
+      'success': 'true',
+      'data': {
+         'labels': [],
+         'values': [],
+         'total': 0
+      }
+   }
+   for r in rows:
+      res['data']['labels'].append(r.label)
+      res['data']['values'].append(int(getattr(r, column)))
+      res['data']['total'] = res['data']['total'] + int(getattr(r, column))
+   return jsonify(res)
+
+@app.route('/api/get-video-trend')
+@cross_origin()
+def getVideoTrend():
+   rows = get_video_trend()
    res = {
       'success': 'true',
       'data': {
@@ -262,6 +318,18 @@ def test_media_folder():
          'error_message': "Can't find the last picture taken. Try mounting the folder. Notice you will need SSH+Postgres Connection",
          'is_connected': 'false'
       })
+
+@app.route('/api/get-photos-by-country')
+@cross_origin()
+def getPhotosByCountry():
+   rows = get_photo_by_country()
+   res = {
+      'success': 'true',
+      'data': []
+   }
+   for r in rows:
+      res['data'].append({'label': r.label, 'value': r.value})
+   return jsonify(res)
 
 if __name__ == "__main__":
    sock.run(debug=True)

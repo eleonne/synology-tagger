@@ -16,6 +16,15 @@ const secondsToDhms = (seconds) => {
     return dDisplay + hDisplay + mDisplay + sDisplay;
 }
 
+function formatBytes(bytes, decimalPoint=2) {
+    if(bytes == 0) return '0 Bytes';
+    var k = 1000,
+        dm = decimalPoint || 2,
+        sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'],
+        i = Math.floor(Math.log(bytes) / Math.log(k));
+    return parseFloat((bytes / Math.pow(k, i)).toFixed(dm)) + ' ' + sizes[i];
+ }
+
 const getChartData = (values, label) => {
     return [
         {
@@ -101,8 +110,50 @@ const getChartOptions = (labels, _id) => {
     }
 }
 
+const getPieChartOptions = (labels, formatter = null) => {
+    return {
+        labels: labels,
+        chart: {
+          width: "550px"
+        },
+        states: {
+          hover: {
+            filter: {
+              type: "none",
+            },
+          },
+        },
+        legend: {
+          show: false,
+        },
+        dataLabels: {
+          enabled: false,
+        },
+        hover: { mode: null },
+        plotOptions: {
+          donut: {
+            expandOnClick: false,
+            donut: {
+              labels: {
+                show: false,
+              },
+            },
+          },
+        },
+        tooltip: {
+          enabled: true,
+          theme: "dark",
+          y: {
+              formatter: formatter
+          }
+        },
+    };
+};
+
 export {
     secondsToDhms,
     getChartData,
-    getChartOptions
+    getChartOptions,
+    getPieChartOptions,
+    formatBytes
 }

@@ -221,3 +221,51 @@ def save_tags(tags, unit_id):
     for row in res:
         sql = "INSERT INTO many_unit_has_many_general_tag(id_unit, id_general_tag) VALUES (:unit_id, :id)"
         execute(sql, {'unit_id': unit_id, 'id': row.id})
+
+def get_photo_trend():
+    sql = """SELECT TO_CHAR(TO_TIMESTAMP(mtime), 'YYYY') as label, count(*) as value
+             FROM public.unit u
+             WHERE u.type = 0 and u.is_major = true
+             GROUP BY TO_CHAR(TO_TIMESTAMP(mtime), 'YYYY')
+             ORDER BY TO_CHAR(TO_TIMESTAMP(mtime), 'YYYY') ASC"""
+    res = query(sql, None).all()
+    return res
+
+def get_video_trend():
+    sql = """SELECT TO_CHAR(TO_TIMESTAMP(takentime), 'YYYY') as label, SUM(duration / 1000) as value
+             FROM public.unit u
+             JOIN video_additional va on u.id = va.id_unit
+             WHERE u.type = 1 and u.is_major = true
+             GROUP BY TO_CHAR(TO_TIMESTAMP(takentime), 'YYYY')
+             ORDER BY TO_CHAR(TO_TIMESTAMP(takentime), 'YYYY') ASC"""
+    res = query(sql, None).all()
+    return res
+
+def get_video_trend_split():
+    sql = """SELECT CASE WHEN duration / 1000 <= 30 THEN 'SHORT'
+                         WHEN duration / 1000 > 30 AND duration / 1000 <= 60 THEN 'SMALL'
+                         WHEN duration / 1000 > 60 AND duration / 1000 <= 300 THEN 'REGULAR'
+                         WHEN duration / 1000 > 300 THEN 'LONG'
+                    END AS label,
+                    COUNT(*) as count, SUM(duration / 1000) as duration, SUM(filesize) as filesize
+             FROM public.unit u
+             JOIN video_additional va on u.id = va.id_unit
+             WHERE u.type = 1 and u.is_major = true
+             GROUP BY CASE WHEN duration / 1000 <= 30 THEN 'SHORT'
+                           WHEN duration / 1000 > 30 AND duration / 1000 <= 60 THEN 'SMALL'
+                           WHEN duration / 1000 > 60 AND duration / 1000 <= 300 THEN 'REGULAR'
+                           WHEN duration / 1000 > 300 THEN 'LONG'
+                      END"""
+    res = query(sql, None).all()
+    return res
+
+def get_photo_by_country():
+    sql = """select DISTINCT gc.country AS label, COUNT(*) as VALUE
+             FROM public.unit u
+             join geocoding_info gc ON gc.id_geocoding = u.id_geocoding AND lang = 0
+             WHERE u.type = 0 and u.is_major = true
+             GROUP BY gc.country
+             ORDER BY COUNT(*) DESC
+             LIMIT 5"""
+    res = query(sql, None).all()
+    return res

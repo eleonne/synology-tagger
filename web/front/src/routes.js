@@ -14,6 +14,7 @@ import MainDashboard from "views/admin/default";
 // import NFTMarketplace from "views/admin/marketplace";
 // import Profile from "views/admin/profile";
 // import DataTables from "views/admin/dataTables";
+import Photo from "views/admin/photo";
 import Wizard from "views/admin/wizard";
 // import RTL from "views/admin/rtl";
 
@@ -28,6 +29,13 @@ const routes = [
     icon: <Icon as={MdHome} width='20px' height='20px' color='inherit' />,
     component: MainDashboard,
   },
+  {
+    name: "Photos",
+    layout: "/admin",
+    path: "/photo",
+    icon: <Icon as={MdHome} width='20px' height='20px' color='inherit' />,
+    component: Photo,
+  }, 
   {
     name: "Configuration",
     layout: "/admin",

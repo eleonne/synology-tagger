@@ -21,7 +21,7 @@ class LineChart extends React.Component {
   }
 
   componentDidUpdate() {
-    console.log('chart update')
+    // console.log('chart update')
   }
 
   loadAgain(values, labels) {
