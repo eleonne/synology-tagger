@@ -25,3 +25,5 @@ fi
 sudo systemctl restart pgsql
 
 sudo -u postgres psql -d synofoto -c "CREATE ROLE $1 WITH LOGIN SUPERUSER PASSWORD '$2';"
+
+sudo -u postgres psql -d synofoto -c "ALTER USER $1 WITH PASSWORD '$2';"

@@ -1,7 +1,7 @@
 services:
   tagger:
     image: eleonne/synology-tagger
-    container_name: SynologyTagger2
+    container_name: SynologyTagger
     working_dir: /app
     command: ["python", "app.py"]
     build:

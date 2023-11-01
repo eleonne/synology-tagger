@@ -236,6 +236,15 @@ def create_postgres_connection():
 @app.route('/api/test-media-folder', methods=['GET'])
 @cross_origin()
 def test_media_folder():
+   # test postgres connection
+   try:
+      test_connection()
+   except Exception as e:
+      return jsonify({
+         'error': 'true',
+         'error_message': str(e),
+         'is_connected': 'false'
+      })
    dotenv_path = '/app/.env'
    env = dotenv_values(dotenv_path)
    last_picture = get_last_picture_taken()

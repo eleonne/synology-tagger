@@ -17,8 +17,10 @@ class Detection:
 
     _model = None
     _base_dir = os.path.dirname(os.path.abspath(__file__)) + '/../'
-    _config_file = 'ml_models/faster-rcnn_r50-caffe_fpn_ms-3x_coco.py'
-    _checkpoint_file = 'ml_models/faster_rcnn_r50_caffe_fpn_mstrain_3x_coco_20210526_095054-1f77628b.pth'
+    _config_file = 'ml_models/' + env['CONFIG_FILE']
+    _checkpoint_file = 'ml_models/' + env['CHECKPOINT']
+    # _config_file = 'ml_models/rtmdet_l_8xb32-300e_coco.py'
+    # _checkpoint_file = 'ml_models/rtmdet_l_8xb32-300e_coco_20220719_112030-5a0be7c4.pth'
     _all_classes = None
     _size = (1024, 1024)
     _filtered = None
