@@ -3,7 +3,7 @@ import MiniStatistics from "components/card/MiniStatistics";
 import IconBox from "components/icons/IconBox";
 import axios from "axios";
 import React, {useEffect, useState} from "react";
-import {secondsToDhms} from '../../../../assets/utils'
+import {secondsToDhms, formatNumbers} from '../../../../assets/utils'
 import useWebSocket, { ReadyState } from 'react-use-websocket';
 
 import {
@@ -93,7 +93,7 @@ export default function ClassifiedMedia(props) {
             <SimpleGrid columns={{ base: 1, md: 2, xl: 2 }} gap='20px' mb='20px'>
                 <MiniStatistics
                     name='Total de Arquivos Classificados'
-                    value={(state.classified_total).toLocaleString('pt-BR')}
+                    value={formatNumbers(state.classified_total)}
                     startContent={
                         <IconBox
                         w='56px'
@@ -108,7 +108,7 @@ export default function ClassifiedMedia(props) {
                 <MiniStatistics
                     name='Total de Arquivos não Classificados'
                     textColorSecondary='white'
-                    value={(state.unclassified_total).toLocaleString('pt-BR')}
+                    value={formatNumbers(state.unclassified_total)}
                     bg={state.unclassified_total_color}
                     startContent={
                         <IconBox
@@ -128,7 +128,7 @@ export default function ClassifiedMedia(props) {
                 mb='20px'>
                 <MiniStatistics
                     name='Imagens Classificadas'
-                    value={(state.classified_images).toLocaleString('pt-BR')}
+                    value={formatNumbers(state.classified_images)}
                     startContent={
                         <IconBox
                         w='56px'

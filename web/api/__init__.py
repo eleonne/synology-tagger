@@ -6,7 +6,7 @@ from src.model import get_total_classified, get_total_classified_images, get_tot
 from src.model import get_total_classified_long_videos, get_total_classified_longest_videos
 from src.model import get_total_unclassified, get_total_unclassified_images, get_total_unclassified_short_videos
 from src.model import get_total_unclassified_long_videos, get_total_unclassified_longest_videos, get_last_picture_taken
-from src.model import get_photo_trend, get_video_trend, get_video_trend_split, get_photo_by_country
+from src.model import get_photo_trend, get_video_trend, get_video_trend_split, get_photo_by_country, get_bytes_by_folder
 from src.model_batch import get_is_running, get_classification_data
 import time, os
 from src.tasks import classify_task
@@ -329,6 +329,105 @@ def getPhotosByCountry():
    }
    for r in rows:
       res['data'].append({'label': r.label, 'value': r.value})
+   return jsonify(res)
+
+@app.route('/api/get-photos-by-country-pie')
+@cross_origin()
+def getPhotosByCountryPie():
+   rows = get_photo_by_country()
+   res = {
+      'success': 'true',
+      'data': {
+         'labels': [],
+         'values': [],
+         'total': 0
+      }
+   }
+   for r in rows:
+      res['data']['labels'].append(r.label)
+      res['data']['values'].append(r.value)
+      res['data']['total'] = res['data']['total'] + r.value
+   return jsonify(res)
+
+@app.route('/api/get-bytes-by-folder')
+@cross_origin()
+def getBytesByFolder():
+   aux_videos = get_bytes_by_folder(2, True, False)
+   major_videos = get_bytes_by_folder(2, True, True)
+   aux_photos = get_bytes_by_folder(2, False, False)
+   major_photos = get_bytes_by_folder(2, False, True)
+
+   largest_list = max(aux_videos, major_videos, aux_photos, major_photos, key=len)
+   lists = [aux_videos, major_videos, aux_photos, major_photos]
+   largest_index = lists.index(largest_list)
+   control_list = ['aux_videos_filesize', 'major_videos_filesize', 'aux_photos_filesize', 'major_photos_filesize']
+   excluded_list = [largest_list]
+   result = []
+   for r in largest_list:
+      row = {
+         'folder': r.folder,
+         'aux_videos_filesize': 0,
+         'major_videos_filesize': 0,
+         'aux_photos_filesize': 0,
+         'major_photos_filesize': 0
+      }
+      row[control_list[largest_index]] = r.filesize
+      for l in lists:
+         if largest_list == l:
+            continue
+         for v in l:
+            if r.id == v.id:
+               row[control_list[lists.index(l)]] = v.filesize
+      result.append(row)
+   
+   return jsonify({'data': result})
+
+@app.route('/api/get-bytes-by-folder-pie')
+@cross_origin()
+def getBytesByFolderPie():
+   aux_videos = get_bytes_by_folder(2, True, False)
+   major_videos = get_bytes_by_folder(2, True, True)
+   aux_photos = get_bytes_by_folder(2, False, False)
+   major_photos = get_bytes_by_folder(2, False, True)
+
+   largest_list = max(aux_videos, major_videos, aux_photos, major_photos, key=len)
+   lists = [aux_videos, major_videos, aux_photos, major_photos]
+   largest_index = lists.index(largest_list)
+   control_list = ['aux_videos_filesize', 'major_videos_filesize', 'aux_photos_filesize', 'major_photos_filesize']
+   excluded_list = [largest_list]
+   result = []
+   for r in largest_list:
+      row = {
+         'folder': r.folder,
+         'aux_videos_filesize': 0,
+         'major_videos_filesize': 0,
+         'aux_photos_filesize': 0,
+         'major_photos_filesize': 0
+      }
+      row[control_list[largest_index]] = r.filesize
+      for l in lists:
+         if largest_list == l:
+            continue
+         for v in l:
+            if r.id == v.id:
+               row[control_list[lists.index(l)]] = v.filesize
+      result.append(row)
+
+   res = {
+      'success': 'true',
+      'data': {
+         'labels': [],
+         'values': [],
+         'total': 0
+      }
+   }
+   for r in result:
+      if r['folder'] is not '/':
+         val = int(r['aux_videos_filesize']) + int(r['major_videos_filesize']) + int(r['aux_photos_filesize']) + int(r['major_photos_filesize'])
+         res['data']['labels'].append(r['folder'])
+         res['data']['values'].append(val)
+         res['data']['total'] = res['data']['total'] + val
+   
    return jsonify(res)
 
 if __name__ == "__main__":

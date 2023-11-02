@@ -18,9 +18,8 @@ import {
     TableCaption,
 } from "@chakra-ui/react"
 import React, { useEffect, useState } from "react";
-import { getChartOptions, getChartData, secondsToDhms } from '../../../../assets/utils'
+import { formatNumbers } from '../../../../assets/utils'
 import axios from "axios";
-import { MdCheckCircle, MdSettings } from "react-icons/md";
 
 export default function BatchProcessingTime(props) {
     const { ...rest } = props;
@@ -59,19 +58,27 @@ export default function BatchProcessingTime(props) {
                 </Flex>
             </Flex>
             <Flex w='100%' flexDirection={{ base: "column", lg: "row" }} justifyContent='flex-start' alignItems='flex-start'>
-                <Table variant="simple">
-                    <Tbody>
-                        {
-                            (state.data.length === 0) ? null :
-                                state.data.map((row) => {
-                                    return <Tr>
-                                        <Td>{row.label}</Td>
-                                        <Td>{row.value.toLocaleString('pt-BR')}</Td>
-                                    </Tr>
-                                })
-                        }
-                    </Tbody>
-                </Table>
+                <Box w="100%" maxW="100%" maxH="300px" overflow="auto">
+                    <Table variant="simple" variant="striped" size="lg">
+                        <Thead>
+                            <Tr>
+                                <Th>País</Th>
+                                <Th isNumeric>-</Th>
+                            </Tr>
+                        </Thead>
+                        <Tbody>
+                            {
+                                (state.data.length === 0) ? null :
+                                    state.data.map((row) => {
+                                        return <Tr>
+                                            <Td>{row.label}</Td>
+                                            <Td>{formatNumbers(row.value)}</Td>
+                                        </Tr>
+                                    })
+                            }
+                        </Tbody>
+                    </Table>
+                </Box>
             </Flex>
         </Card>
     );

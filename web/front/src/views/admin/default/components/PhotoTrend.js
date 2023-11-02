@@ -9,7 +9,7 @@ import {
   import Card from "components/card/Card.js";
   import LineChart from "components/charts/LineChart";
   import React, { useEffect, useState } from "react";
-  import { getChartOptions, getChartData, secondsToDhms } from '../../../../assets/utils'
+  import { getChartOptions, getChartData, formatNumbers } from '../../../../assets/utils'
   import axios from "axios";
   
   export default function PhotoTrend(props) {
@@ -50,7 +50,7 @@ import {
               textAlign='start'
               fontWeight='700'
               lineHeight='100%'>
-              Total de fotos: {(state.total).toLocaleString('pt-BR')}
+              Total de fotos: {formatNumbers(state.total)}
             </Text>
           </Flex>
         </Flex>
