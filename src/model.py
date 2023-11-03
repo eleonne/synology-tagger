@@ -260,9 +260,9 @@ def get_video_trend_split():
     return res
 
 def get_photo_by_country():
-    sql = """SELECT DISTINCT gc.country AS label, COUNT(*) AS value
+    sql = """SELECT DISTINCT COALESCE(gc.country, '-') AS label, COUNT(*) AS value
              FROM public.unit u
-             JOIN geocoding_info gc ON gc.id_geocoding = u.id_geocoding AND lang = 0
+             LEFT JOIN geocoding_info gc ON gc.id_geocoding = u.id_geocoding AND lang = 0
              WHERE u.type = 0 AND u.is_major = true
              GROUP BY gc.country
              ORDER BY COUNT(*) DESC"""
@@ -282,7 +282,7 @@ def get_bytes_by_folder(top_folder_id, is_video, is_major):
                 INNER JOIN x x1 ON p.parent = x1.id 
             ) 
 
-            SELECT x.top_parent_id as id, f.name as folder, sum(u.filesize) as filesize
+            SELECT x.top_parent_id as id, f.name as folder, sum(u.filesize) as filesize, count(*) as count
             FROM x
             JOIN public.unit u ON u.id_folder = x.id
             JOIN folder f ON f.id = x.top_parent_id

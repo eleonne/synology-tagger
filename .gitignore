@@ -36,6 +36,8 @@ share/python-wheels/
 MANIFEST
 ml_models
 web/front/node_modules
+eduardo.jpeg
+eliane.jpeg
 
 # PyInstaller
 #  Usually these files are written by a python script from a template
